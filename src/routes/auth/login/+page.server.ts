@@ -48,7 +48,8 @@ export const actions: Actions = {
 		const session = await auth.createSession(sessionToken, existingUser.id)
 		auth.setSessionTokenCookie(event, sessionToken, session.expiresAt)
 
-		return redirect(302, '/secret')
+		return redirect(302, '/' + sessionToken + '/secret' )
+		
 	},
 	register: async (event) => {
 		const formData = await event.request.formData()
@@ -71,16 +72,19 @@ export const actions: Actions = {
 			parallelism: 1,
 		})
 
+		let sessionToken
+
 		try {
 			await db.insert(table.user).values({ id: userId, username, passwordHash })
 
-			const sessionToken = auth.generateSessionToken()
+			sessionToken = auth.generateSessionToken()
 			const session = await auth.createSession(sessionToken, userId)
 			auth.setSessionTokenCookie(event, sessionToken, session.expiresAt)
+			
 		} catch (e) {
 			return fail(500, { message: 'An error has occurred' })
 		}
-		return redirect(302, '/secret')
+		return redirect(302, '/' + sessionToken + '/secret' )
 	},
 }
 

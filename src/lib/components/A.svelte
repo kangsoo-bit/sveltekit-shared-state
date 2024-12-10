@@ -7,5 +7,8 @@
 
 <div class="outline">
 	<div class="label">A</div>
+	<h1 class="label">Hi, {user.username}!</h1>
+	<p class="label">Your user ID is {user.id}.</p>
+
 	<B {user} />
 </div>

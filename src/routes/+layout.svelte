@@ -41,6 +41,13 @@
 
 		pre {
 			font-size: var(--font-size-4);
+			color: chartreuse;
 		}
+
+		.label {
+			font-size: var(--font-size-4);
+			color: chartreuse;
+		}
+
 	}
 </style>

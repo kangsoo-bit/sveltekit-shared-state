@@ -2,7 +2,17 @@ import type { Handle } from '@sveltejs/kit'
 import * as auth from '$lib/server/auth.js'
 
 const handleAuth: Handle = async ({ event, resolve }) => {
-	const sessionToken = event.cookies.get(auth.sessionCookieName)
+
+	console.log('event.url.pathname', event.url.pathname)
+
+	const splitURL = event.url.pathname.toString().split("/")
+	if(splitURL.length > 1) {
+		console.log('splitURL[1]', splitURL[1])
+	}
+
+	// const sessionToken = event.cookies.get(auth.sessionCookieName)
+	const sessionToken = splitURL[1]
+	console.log('auth.sessionCookieName', auth.sessionCookieName)
 	if (!sessionToken) {
 		event.locals.user = null
 		event.locals.session = null
@@ -17,7 +27,9 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	}
 
 	event.locals.user = user
+	console.log('event.locals.user', user)
 	event.locals.session = session
+	console.log('event.locals.session', session)
 
 	return resolve(event)
 }
